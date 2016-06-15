@@ -2,12 +2,6 @@
   "name": "workspace-switcher",
   "version": "0.1.0",
   "scripts": {
-    "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
-    "lite": "lite-server",
-    "postinstall": "typings install",
-    "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "typings": "typings"
   },
   "license": "ISC",
   "dependencies": {
@@ -32,6 +26,7 @@
   },
   "devDependencies": {
     "concurrently": "^2.0.0",
-    "typescript": "^1.8.10"
+    "typescript": "^1.8.10",
+    "typings": "^1.0.4"
   }
 }
