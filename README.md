@@ -1,2 +1,2 @@
-# worksace-switcher
+# workspace-switcher
 Workspace switcher using spaces.json
