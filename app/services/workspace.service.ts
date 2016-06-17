@@ -9,11 +9,10 @@ export class WorkspaceService {
     private spacesUrl = '/data/spaces.json';
 
     getWorkspaces(): Promise<Workspace[]> {
-        //return Promise.resolve(Workspaces);
         return this.http.get(this.spacesUrl)
                .toPromise()
                .then(response => {
-                   return response.json() 
+                   return response.json(); 
                 })
                .catch(this.handleError);
     }

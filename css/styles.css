@@ -1,13 +1,86 @@
+body {
+  background-color: #E9E9E9;
+}
 h1 {
   color: #369;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 250%;
 }
-body {
-  margin: 2em;
+label {
+  color: #FFFFFF;
 }
-
- /*
-  * See https://github.com/angular/angular.io/blob/master/public/docs/_examples/styles.css
-  * for the full set of master styles used by the documentation samples
-  */
+.selector-label {
+  height: 60px;
+  width: 275px;
+  color: #FFFFFF;
+  margin-left: 20px;
+  font-size: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: normal;
+  padding-top: 15px;
+}
+nav .container {
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #4C90BE;
+}
+nav input {
+  border: none;
+  outline: none;
+  background-color: #396C8E;
+  height: 60px;
+  width: 275px;
+  color: #FFFFFF;
+  margin-left: 20px;
+  font-size: 20px;
+}
+.nav:first-child li {
+  background-color: #396C8E;
+  padding-left: 15px;
+}
+.menu-icon {
+  font-size: 20px;
+  color: #FFFFFF;
+}
+.glyphicon-remove {
+  position: absolute;
+  z-index: 1000;
+  top: 30%;
+  left: 2%;
+}
+a.glyphicon-remove {
+  text-decoration: none !important;
+}
+.workspace-flyout {
+  position: absolute;
+  top: 60;
+  left: 0;
+  background-color: #F6F6F6;
+  width: 335px;
+  padding-left: 15px;
+  padding-bottom: 15px;
+}
+.workspace-flyout .item-list {
+  padding-left: 20px;
+}
+.workspace-flyout .ws-header {
+  margin-left: 10px;
+}
+.workspace-flyout .header-img {
+  height: 30px;
+  width: 30px;
+}
+.workspace-flyout .item-img {
+  height: 20px;
+  width: 20px;
+  color: #DDDDDD;
+}
+.highlighted {
+  background-color: yellow;
+}
+.selected-space {
+  color: green  !important;
+}

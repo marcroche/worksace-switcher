@@ -17,7 +17,6 @@ var WorkspaceService = (function () {
         this.spacesUrl = '/data/spaces.json';
     }
     WorkspaceService.prototype.getWorkspaces = function () {
-        //return Promise.resolve(Workspaces);
         return this.http.get(this.spacesUrl)
             .toPromise()
             .then(function (response) {

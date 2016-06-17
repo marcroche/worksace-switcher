@@ -16,7 +16,7 @@ var WorkspaceNavbarComponent = (function () {
     WorkspaceNavbarComponent = __decorate([
         core_1.Component({
             selector: 'workspace-navbar',
-            template: "\n    <nav class=\"navbar navbar-default navbar-fixed-top\">\n      <div class=\"container\">\n        <div class=\"navbar-header\">\n          <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n          </button>\n          <a class=\"navbar-brand\" href=\"#\">Workspace Switcher</a>\n        </div>\n        <div id=\"navbar\" class=\"navbar-collapse collapse\">\n          <ul class=\"nav navbar-nav\">\n            <workspace-selector class=\"nav navbar-nav\"></workspace-selector>\n          </ul>\n        </div>\n      </div>\n    </nav>\n  ",
+            template: "\n    <nav class=\"navbar navbar-default navbar-fixed-top\">\n      <div class=\"container\">\n        <div id=\"navbar\" class=\"navbar-collapse collapse\">\n          <ul class=\"nav navbar-nav\">\n            <workspace-selector class=\"nav navbar-nav\"></workspace-selector>\n          </ul>\n        </div>\n      </div>\n    </nav>\n  ",
             directives: [workspace_selector_component_1.WorkspaceSelectorComponent]
         }), 
         __metadata('design:paramtypes', [])
@@ -24,4 +24,13 @@ var WorkspaceNavbarComponent = (function () {
     return WorkspaceNavbarComponent;
 }());
 exports.WorkspaceNavbarComponent = WorkspaceNavbarComponent;
+// <div class="navbar-header">
+//           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+//             <span class="sr-only">Toggle navigation</span>
+//             <span class="icon-bar"></span>
+//             <span class="icon-bar"></span>
+//             <span class="icon-bar"></span>
+//           </button>
+//           <a class="navbar-brand" href="#">Workspace Switcher</a>
+//         </div> 
 //# sourceMappingURL=workspace-navbar.component.js.map
