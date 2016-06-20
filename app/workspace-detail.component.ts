@@ -1,52 +1,48 @@
-import { Component, Input, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Workspace } from './model/workspace'
 import { WorkspaceService } from './services/workspace.service';
+import { Routes, ROUTER_DIRECTIVES } from '@angular/router';
+
+import { Router, RouteSegment, OnActivate } from '@angular/router';
 
 @Component({
   selector: 'workspace-detail',
   template: `
-    <div class="container" *ngIf="workspace">
+    <div class="container" *ngIf="space">
       <div class="jumbotron">
-        <h2>{{workspace.name}}</h2>
-        <div><label>Spaces</label></div>
-        <li *ngFor="let space of workspace.spaces">{{ space.name }}</li>
+        <h2>{{space.name}}</h2>
       </div>
     </div>
+    <router-outlet></router-outlet>
     `,
-    providers: [ WorkspaceService ]
+    directives: [ROUTER_DIRECTIVES],
+    providers: [ WorkspaceService ],
 })
 
-export class WorkspaceDetailComponent { 
+export class WorkspaceDetailComponent implements OnActivate { 
     public workspace;
+    public space;
     public workspaces;
-    
-    constructor(private workspaceService: WorkspaceService, private zone: NgZone) {  
-        //Angular 2 Router is not behaving as documented.. researching further
-        window.onhashchange = function () {
-            zone.run(() => {
-                this.getWorkspace(this.parseRoute());
-            });
-        }.bind(this);
 
-        this.getWorkspace(this.parseRoute());
+    routerOnActivate(routeSegment: RouteSegment) {
+        this.getWorkspace(Number(routeSegment.getParam('id')));
+    }
+
+    constructor(private workspaceService: WorkspaceService) {  
     }
 
     getWorkspace(id) {
         this.workspaceService.getWorkspaces().then(workspaces => this.workspaces = workspaces)
-            .then(() => this.workspace = this.workspaces.find(function(workspace) {
-                return workspace.id === id; 
-            }))
+            .then(() => {
+                for (var workspace of this.workspaces) {
+                    for (var space of workspace.spaces) {
+                        if (space.id === id) {
+                            this.space = space;
+                            return;
+                        }
+                    }
+                }
+            })
             .catch(error => console.error(error));
-    }
-
-    parseRoute() {
-        if (window.location.hash) {
-            var parts = window.location.hash.split('/');
-
-            if (parts && parts.length === 3 && parts[1] === 'workspace') {
-                return Number(parts[2]);
-            }
-        }
-        return null;
     }
 }

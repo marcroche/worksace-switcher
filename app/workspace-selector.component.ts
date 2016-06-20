@@ -1,28 +1,20 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { Workspace } from './model/workspace'
 import { WorkspaceService } from './services/workspace.service';
+//import { Routes, Router, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
 
 @Component({
   selector: 'workspace-selector',
   template: `
     <li>
-        <i *ngIf="selectorOpen" class="glyphicon glyphicon-search menu-icon" (click)="toggle()"></i>
-        <input *ngIf="selectorOpen" type="text" class="search-field"  (keyup)="onKeyUp($event)">
+        <i *ngIf="selectorOpen && !hasText" class="glyphicon glyphicon-search menu-icon" (click)="toggle()"></i>
+        <i *ngIf="selectorOpen && hasText" class="glyphicon glyphicon-remove menu-icon" (click)="clear()"></i>
+        <input #inputField *ngIf="selectorOpen" type="text" class="search-field"  (keyup)="onKeyUp($event)">
 
         <i *ngIf="!selectorOpen" class="glyphicon glyphicon-menu-hamburger menu-icon" (click)="toggle()"></i>
         <span *ngIf="!selectorOpen" class="selector-label">Choose a workspace</span>
     </li>   
     
-    <li class="dropdown" style="display: none">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Workspaces <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li *ngFor="let workspace of workspaces">
-                <a href="#/workspace/{{ workspace.id }}">{{ workspace.name }}</a>
-            </li>
-        </ul>
-    </li>
-    <router-outlet></router-outlet>
-
     <div *ngIf="selectorOpen" class="workspace-flyout" (window:keydown)="onKey($event)">
         <div *ngFor="let workspace of workspaces">
             <h4>
@@ -36,6 +28,7 @@ import { WorkspaceService } from './services/workspace.service';
         </div>
     </div>
   `,
+  directives: [ ],
   providers: [ WorkspaceService ],
 })
 
@@ -43,26 +36,48 @@ export class WorkspaceSelectorComponent {
     public workspaces: Workspace[];
     public selectorOpen = false;
     public spaces = [];
+    private hasText = false;
+    @Output() onNavigate = new EventEmitter<string>();
+    @ViewChild('inputField') element: ElementRef;
 
-    constructor(private workspaceService: WorkspaceService, public element: ElementRef) {
+    constructor(private workspaceService: WorkspaceService) {
     }
 
     onKey(event) {
-        // up 38 - down - 40 enter - 13
         if (event.keyCode === 38 || event.keyCode === 40) {
             this.navigateWithArrow(event.keyCode);
+        } else if (event.keyCode === 13) {
+            var space = this.getSelectedSpace();
+            if (space !== undefined) {
+                this.onNavigate.emit('workspace/' + space.id);
+            }
         }
-        console.log(event.keyCode);
     }
 
     onKeyUp(event) {
+        if (event.keyCode === 38 || 
+            event.keyCode === 40 || 
+            event.keyCode === 13) {
+            return;
+        }
+
         this.getWorkspaces().then(() => {
             if (event.target.value < 1) {
+                this.hasText = false;
                 return;
             }
-
+            this.hasText = true;
             this.highlightMatchingText(event.target.value);        
             this.filterVisibleSpaces();         
+            this.selectFirstSpace();
+            this.flattenSpaces();
+        });
+    }
+
+    clear() {
+        this.getWorkspaces().then(() => {
+            this.element.nativeElement.value = '';
+            this.hasText = false;
             this.selectFirstSpace();
             this.flattenSpaces();
         });
@@ -144,5 +159,11 @@ export class WorkspaceSelectorComponent {
                 this.spaces.push(space); 
            }
         }
+    }
+
+    getSelectedSpace() {
+        return this.spaces.find((space) => {
+            return space.selected == true;
+        });
     }
 }

@@ -19,8 +19,8 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'workspace-app',
             template: "\n    <workspace-navbar></workspace-navbar>\n    <workspace-detail></workspace-detail>",
-            providers: [],
-            directives: [workspace_navbar_component_1.WorkspaceNavbarComponent, workspace_detail_component_1.WorkspaceDetailComponent, router_1.ROUTER_DIRECTIVES],
+            providers: [router_1.ROUTER_PROVIDERS],
+            directives: [workspace_navbar_component_1.WorkspaceNavbarComponent, workspace_detail_component_1.WorkspaceDetailComponent],
         }),
         router_1.Routes([
             {

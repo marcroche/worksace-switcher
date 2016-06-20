@@ -10,43 +10,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var workspace_service_1 = require('./services/workspace.service');
+var router_1 = require('@angular/router');
 var WorkspaceDetailComponent = (function () {
-    function WorkspaceDetailComponent(workspaceService, zone) {
+    function WorkspaceDetailComponent(workspaceService) {
         this.workspaceService = workspaceService;
-        this.zone = zone;
-        //Angular 2 Router is not behaving as documented.. researching further
-        window.onhashchange = function () {
-            var _this = this;
-            zone.run(function () {
-                _this.getWorkspace(_this.parseRoute());
-            });
-        }.bind(this);
-        this.getWorkspace(this.parseRoute());
     }
+    WorkspaceDetailComponent.prototype.routerOnActivate = function (routeSegment) {
+        this.getWorkspace(Number(routeSegment.getParam('id')));
+    };
     WorkspaceDetailComponent.prototype.getWorkspace = function (id) {
         var _this = this;
         this.workspaceService.getWorkspaces().then(function (workspaces) { return _this.workspaces = workspaces; })
-            .then(function () { return _this.workspace = _this.workspaces.find(function (workspace) {
-            return workspace.id === id;
-        }); })
-            .catch(function (error) { return console.error(error); });
-    };
-    WorkspaceDetailComponent.prototype.parseRoute = function () {
-        if (window.location.hash) {
-            var parts = window.location.hash.split('/');
-            if (parts && parts.length === 3 && parts[1] === 'workspace') {
-                return Number(parts[2]);
+            .then(function () {
+            for (var _i = 0, _a = _this.workspaces; _i < _a.length; _i++) {
+                var workspace = _a[_i];
+                for (var _b = 0, _c = workspace.spaces; _b < _c.length; _b++) {
+                    var space = _c[_b];
+                    if (space.id === id) {
+                        _this.space = space;
+                        return;
+                    }
+                }
             }
-        }
-        return null;
+        })
+            .catch(function (error) { return console.error(error); });
     };
     WorkspaceDetailComponent = __decorate([
         core_1.Component({
             selector: 'workspace-detail',
-            template: "\n    <div class=\"container\" *ngIf=\"workspace\">\n      <div class=\"jumbotron\">\n        <h2>{{workspace.name}}</h2>\n        <div><label>Spaces</label></div>\n        <li *ngFor=\"let space of workspace.spaces\">{{ space.name }}</li>\n      </div>\n    </div>\n    ",
-            providers: [workspace_service_1.WorkspaceService]
+            template: "\n    <div class=\"container\" *ngIf=\"space\">\n      <div class=\"jumbotron\">\n        <h2>{{space.name}}</h2>\n      </div>\n    </div>\n    <router-outlet></router-outlet>\n    ",
+            directives: [router_1.ROUTER_DIRECTIVES],
+            providers: [workspace_service_1.WorkspaceService],
         }), 
-        __metadata('design:paramtypes', [workspace_service_1.WorkspaceService, core_1.NgZone])
+        __metadata('design:paramtypes', [workspace_service_1.WorkspaceService])
     ], WorkspaceDetailComponent);
     return WorkspaceDetailComponent;
 }());

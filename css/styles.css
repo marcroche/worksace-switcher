@@ -20,7 +20,7 @@ label {
   font-weight: normal;
   padding-top: 15px;
 }
-nav .container {
+nav:first-child .container {
   margin-left: 0px;
   margin-right: 0px;
   padding-left: 0px;

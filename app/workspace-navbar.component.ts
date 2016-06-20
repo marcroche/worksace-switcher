@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { WorkspaceSelectorComponent } from './workspace-selector.component';
 
+import { Routes, Router, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
+
 @Component({
   selector: 'workspace-navbar',
   template: `
@@ -8,25 +10,21 @@ import { WorkspaceSelectorComponent } from './workspace-selector.component';
       <div class="container">
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <workspace-selector class="nav navbar-nav"></workspace-selector>
+            <workspace-selector (onNavigate)="onNavigate($event)" class="nav navbar-nav"></workspace-selector>
           </ul>
         </div>
       </div>
     </nav>
+    <router-outlet></router-outlet>
   `,
   directives: [ WorkspaceSelectorComponent ]
 })
 
 export class WorkspaceNavbarComponent {
+  constructor(private router: Router) {
+
+  }
+  onNavigate(url) {
+    this.router.navigateByUrl(url);
+  }
 }
-
-
-// <div class="navbar-header">
-//           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-//             <span class="sr-only">Toggle navigation</span>
-//             <span class="icon-bar"></span>
-//             <span class="icon-bar"></span>
-//             <span class="icon-bar"></span>
-//           </button>
-//           <a class="navbar-brand" href="#">Workspace Switcher</a>
-//         </div>
