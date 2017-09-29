@@ -9,4 +9,4 @@ Run "npm start"
 
 And a browser should be launched.
 
-In case of any errors, install the dev dependencies globally.
+In case of any errors, install the dev dependencies globally.  
